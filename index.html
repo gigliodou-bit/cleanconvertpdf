@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CleanConvertPDF</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Converti HTML o Siti Web in PDF</h1>
+    <label for="urlInput">Inserisci URL o codice HTML:</label>
+    <textarea id="urlInput" placeholder="https://esempio.com o &lt;html&gt;...&lt;/html&gt;"></textarea>
+    <button onclick="convertToPDF()">Converti in PDF</button>
+    <p id="status"></p>
+  </div>
+  <script src="lang.js"></script>
+  <script>
+    function convertToPDF() {
+      document.getElementById("status").textContent = "Funzione non ancora attiva (server mancante)";
+    }
+  </script>
+</body>
+</html>
