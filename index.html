@@ -26,20 +26,36 @@
 
   <script src="lang.js"></script>
   <script>
-    function convertToPDF() {
-      document.getElementById("status").textContent = translations[currentLang].status;
-    }
+  const BACKEND_URL = "https://cleanconvertpdf-backend-1.onrender.com"; // ← questo è l'indirizzo del tuo backend su Render
 
-    let currentLang = "en";
+  async function convertToPDF() {
+    const input = document.getElementById("urlInput").value;
+    const isURL = input.startsWith("http");
 
-    function changeLanguage() {
-      currentLang = document.getElementById("languageSelector").value;
-      document.getElementById("title").textContent = translations[currentLang].title;
-      document.getElementById("inputLabel").textContent = translations[currentLang].label;
-      document.getElementById("urlInput").placeholder = translations[currentLang].placeholder;
-      document.getElementById("convertButton").textContent = translations[currentLang].button;
-      document.getElementById("status").textContent = "";
+    document.getElementById("status").textContent = translations[currentLang].loading;
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/convert`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(isURL ? { url: input } : { html: input })
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "converted.pdf";
+        link.click();
+        document.getElementById("status").textContent = translations[currentLang].success;
+      } else {
+        document.getElementById("status").textContent = translations[currentLang].error;
+      }
+    } catch (err) {
+      document.getElementById("status").textContent = translations[currentLang].error;
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
